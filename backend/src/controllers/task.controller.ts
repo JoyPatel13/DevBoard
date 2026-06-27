@@ -41,7 +41,7 @@ async function getTask(req:any , res:any) {
             tasks : Alltasks
         })
     }catch(err){
-        res.send(500).json({
+        res.status(500).json({
             message : "Failed to fetch tasks",
             error : err
         })
@@ -49,4 +49,36 @@ async function getTask(req:any , res:any) {
        
 }
 
-export {createTask , getTask}
+async function updateTask(req:any , res:any){
+    try{
+
+        const {title , status , priority } = req.body
+        const id = req.params.id
+        const task = await prisma.task.findFirst({
+            where:{
+                id : id
+            }
+        })
+        if(!task){
+            return res.status(500).json({
+                message : "No tasks found !"
+            })
+        }
+        await prisma.task.update({
+            where:{id},
+            data:{title , status , priority}
+        })
+        return res.status(200).json({
+            message:"Task updated successfully",
+            task
+        })
+    }catch(err){
+        res.status(500).json({
+            message:"Unable to update task !",
+            error : err
+        })
+    }
+
+}
+
+export {createTask , getTask , updateTask}

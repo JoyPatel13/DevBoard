@@ -27,5 +27,26 @@ async function createTask(req:any , res:any) {
 
 }
 
+async function getTask(req:any , res:any) {
+    try{
+
+        const userId = req.userId 
+        const Alltasks = await prisma.task.findMany({
+            where:{
+                userId : userId
+            }
+        })
+        res.status(201).json({
+            message : "Tasks fetched successfully",
+            tasks : Alltasks
+        })
+    }catch(err){
+        res.send(500).json({
+            message : "Failed to fetch tasks",
+            error : err
+        })
+    }
+       
+}
 
 export {createTask , getTask}

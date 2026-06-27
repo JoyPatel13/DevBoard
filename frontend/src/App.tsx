@@ -1,18 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-          <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-purple-400">DevBoard</h1>
-              <p className="text-gray-400 mt-2">Your developer productivity hub</p>
-            </div>
-          </div>
-        } />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
+      
+      
     </BrowserRouter>
   )
 }

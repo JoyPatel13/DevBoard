@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import prisma from "../utils/prisma";
-import { generateAccessToken, generateRefreshToken, verifyToken } from '../utils/jwt.utils.js'
-import { access } from "node:fs";
+import { generateAccessToken, generateRefreshToken, verifyToken } from '../utils/jwt.utils.ts'
 import { error } from "node:console";
 
 

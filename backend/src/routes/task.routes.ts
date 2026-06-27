@@ -1,14 +1,14 @@
 import { VerifyUser } from "../middleware/auth.middleware";
 import {createTask , getTask , updateTask , deleteTask} from '../controllers/task.controller'
 import { Router } from "express";
-const router = Router();
+const TaskRouter = Router();
 
-router.post('/create' , VerifyUser , createTask)
+TaskRouter.post('/create' , VerifyUser , createTask)
 
-router.get('/' , VerifyUser , getTask)
+TaskRouter.get('/' , VerifyUser , getTask)
 
-router.put('/update/:id' , VerifyUser , updateTask )
+TaskRouter.put('/update/:id' , VerifyUser , updateTask )
 
-router.delete('/delete/:id' , VerifyUser , deleteTask)
+TaskRouter.delete('/delete/:id' , VerifyUser , deleteTask)
 
-export {router}
+export {TaskRouter}

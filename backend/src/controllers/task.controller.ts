@@ -81,4 +81,25 @@ async function updateTask(req:any , res:any){
 
 }
 
-export {createTask , getTask , updateTask}
+async function deleteTask(req:any , res:any){
+    try{
+
+        const taskId = req.params.id
+        const deletedTask = await prisma.task.delete({
+            where:{id : taskId},
+            
+        })   
+        res.status(200).json({
+            message : "Task deleted successfully",
+            deletedTask
+        })
+    }catch(err){
+        res.status(500).json({
+            message: "Unable to delete task", 
+            error : err
+        })
+    }
+
+}
+
+export {createTask , getTask , updateTask , deleteTask}

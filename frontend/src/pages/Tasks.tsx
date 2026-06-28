@@ -63,7 +63,19 @@ export default function Tasks() {
         }
     }
 
+    async function updateStatus(id:string , status : string){
+        try{
+            await axios.put(`http://localhost:5000/api/tasks/update/${id}` ,{
+                status
+            } ,{
+                headers:{Authorization: `Bearer ${token}`}
 
+            })
+            fetchTasks()
+        }catch(err){
+            console.log(err)
+        }
+    }
     
 
     return (

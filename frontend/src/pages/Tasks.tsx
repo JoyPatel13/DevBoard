@@ -77,6 +77,17 @@ export default function Tasks() {
         }
     }
     
+      const columns = [
+        { label: "Todo", status: "TODO", color: "text-blue-400", border: "border-blue-500/20" },
+        { label: "In Progress", status: "IN_PROGRESS", color: "text-yellow-400", border: "border-yellow-500/20" },
+        { label: "Done", status: "DONE", color: "text-green-400", border: "border-green-500/20" },
+    ]
+
+    const priorityColor: Record<string, string> = {
+        LOW: "text-gray-400 bg-gray-500/10",
+        MEDIUM: "text-yellow-400 bg-yellow-500/10",
+        HIGH: "text-red-400 bg-red-500/10",
+    }
 
     return (
         <div>

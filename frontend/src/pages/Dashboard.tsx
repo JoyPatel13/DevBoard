@@ -1,7 +1,35 @@
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
+type Task = {
+    id: string
+    title: string
+    status: string
+    priority: string
+    createdAt:string
+}
 export default function Dashboard() {
     const navigate = useNavigate()
+
+    const [tasks, setTasks] = useState<Task[]>([])
+    const token = localStorage.getItem('accessToken')
+
+    useEffect(()=>{
+        async function fetchTasks(){
+            try{
+                const response = await axios.get('http://localhost:5000/api/tasks/' , {
+                    headers : {Authorization : `Bearer ${token}`}
+                })
+                setTasks(response.data.tasks)
+            }
+            catch(err){
+                console.log(err)
+            }
+        }
+        fetchTasks()
+    } , [])
+
 
     function handleLogout() {
         localStorage.removeItem('accessToken')
@@ -54,9 +82,9 @@ export default function Dashboard() {
                 {/* Stats Row */}
                 <div className="grid grid-cols-3 gap-4 mb-8">
                     {[
-                        { label: "Tasks Today", value: "0", color: "text-purple-400" },
+                        { label: "Tasks Today", value: `${tasks.filter(t => new Date(t.createdAt ).toDateString() === new Date().toDateString()).length}`, color: "text-purple-400" },
                         { label: "Focus Sessions", value: "0", color: "text-blue-400" },
-                        { label: "Completed", value: "0", color: "text-green-400" },
+                        { label: "Completed", value: `${ tasks.filter(t => t.status === 'DONE').length}`, color: "text-green-400" },
                     ].map((stat) => (
                         <div key={stat.label} className="bg-[#161b27] border border-white/5 rounded-xl p-5">
                             <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">{stat.label}</p>

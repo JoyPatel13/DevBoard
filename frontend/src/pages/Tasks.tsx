@@ -3,10 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 type Task = {
-    id:string ,
-    title : string,
-    status : string,
-    priority : string
+    id: string,
+    title: string,
+    status: string,
+    priority: string
 }
 
 export default function Tasks() {
@@ -36,16 +36,24 @@ export default function Tasks() {
         }
     }
 
-    async function createTask(){
-        if(!newTitle.trim()) return
-        try{
-            await axios.post('http://localhost:5000/api/tasks/create' , {
-                title: newTitle , priority : newPriority
-            } , {
-                headers : {Authorization : `Bearer ${token}`}
+    async function createTask() {
+        if (!newTitle.trim()) return
+        try {
+            await axios.post('http://localhost:5000/api/tasks/create', {
+                title: newTitle, priority: newPriority
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
             })
+            setNewTitle('')
+            fetchTasks()
+        } catch (err) {
+            console.log(err)
         }
     }
+
+    
+
+
 
     return (
         <div>

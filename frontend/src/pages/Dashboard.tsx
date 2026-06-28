@@ -47,13 +47,14 @@ export default function Dashboard() {
                 </div>
 
                 {[
-                    { label: "Dashboard", icon: "⊞" },
-                    { label: "Tasks", icon: "✓" },
-                    { label: "Pomodoro", icon: "◷" },
-                    { label: "AI Tools", icon: "✦" },
+                    { label: "Dashboard", icon: "⊞"  , path: '/dashboard'},
+                    { label: "Tasks", icon: "✓" , path:'/tasks'},
+                    { label: "Pomodoro", icon: "◷" , path: '/pomodoro'},
+                    { label: "AI Tools", icon: "✦" , path:'/ai' },
                 ].map((item) => (
                     <button
                         key={item.label}
+                        onClick={()=>navigate(item.path)}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors text-left"
                     >
                         <span className="text-base">{item.icon}</span>

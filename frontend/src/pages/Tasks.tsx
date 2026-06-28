@@ -51,9 +51,20 @@ export default function Tasks() {
         }
     }
 
+    async function deleteTask(id: string) {
+        try {
+            await axios.delete(`http://localhost:5000/api/tasks/delete/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            fetchTasks()
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+
     
-
-
 
     return (
         <div>

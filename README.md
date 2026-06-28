@@ -75,7 +75,7 @@ devBoard/
 - [x] JWT auth — register, login, refresh token rotation
 - [x] Auth middleware (VerifyUser)
 - [x] Full Task CRUD API
-- [ ] Frontend pages — Login, Register, Dashboard
+- [x] Frontend pages — Login, Register, Dashboard
 - [ ] Kanban board UI
 - [ ] AI features (Gemini API)
 - [ ] GitHub heatmap

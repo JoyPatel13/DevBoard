@@ -4,6 +4,8 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Tasks from './pages/Tasks'
 import ProtectedRoute from './components/ProtectedRoute'
+import Pomodoro from './pages/Pomodoro'
+
 function App() {
   return (
     <BrowserRouter>
@@ -12,6 +14,7 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/dashboard" element={<ProtectedRoute>  <Dashboard/> </ProtectedRoute>} />
         <Route path='/tasks' element ={<ProtectedRoute><Tasks/></ProtectedRoute> } />
+        <Route path='/pomodoro' element = {<ProtectedRoute><Pomodoro></Pomodoro></ProtectedRoute>} />
       </Routes> 
     </BrowserRouter>
   )

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 export default function Pomodoro() {
 
@@ -39,36 +40,7 @@ export default function Pomodoro() {
         <div className="flex min-h-screen bg-[#0f1117] text-white">
 
             {/* Sidebar */}
-            <aside className="w-64 bg-[#161b27] border-r border-white/5 flex flex-col px-4 py-6 gap-1">
-                <div className="mb-8 px-3">
-                    <span className="text-purple-400 font-bold text-xl tracking-tight">DevBoard</span>
-                    <p className="text-xs text-gray-500 mt-1">Productivity Hub</p>
-                </div>
-                {[
-                    { label: "Dashboard", icon: "⊞", path: "/dashboard" },
-                    { label: "Tasks", icon: "✓", path: "/tasks" },
-                    { label: "Pomodoro", icon: "◷", path: "/pomodoro" },
-                    { label: "AI Tools", icon: "✦", path: "/ai" },
-                ].map((item) => (
-                    <button
-                        key={item.label}
-                        onClick={() => navigate(item.path)}
-                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-left ${item.label === "Pomodoro" ? "text-white bg-white/8" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
-                    >
-                        <span>{item.icon}</span>
-                        {item.label}
-                    </button>
-                ))}
-                <div className="mt-auto">
-                    <button
-                        onClick={() => { localStorage.removeItem('accessToken'); navigate('/login') }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
-                    >
-                        <span>⇤</span> Logout
-                    </button>
-                </div>
-            </aside>
-
+           <Sidebar activePage="Pomodoro"/>
             {/* Main */}
             <main className="flex-1 flex flex-col items-center justify-center p-8">
 

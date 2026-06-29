@@ -6,14 +6,19 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit() {
         try {
+            setLoading(true)
             const response = await axios.post('http://localhost:5000/api/auth/login', { email, password })
             localStorage.setItem('accessToken', response.data.accessToken)
             window.location.href = '/dashboard'
         } catch (err) {
             console.log(err)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
@@ -63,7 +68,7 @@ export default function Login() {
                             onClick={handleSubmit}
                             className="w-full bg-[#7c3aed] hover:bg-[#6d28d9 text-white text-sm font-medium py-2.5 rounded-lg transition-all mt-1 shadow-lg shadow-purple-900/30"
                         >
-                            Sign In
+                            {loading ? 'Signing in...'   : ' Sign in'}
                         </button>
                     </div>
 

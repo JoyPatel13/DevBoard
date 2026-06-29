@@ -12,8 +12,12 @@ async function expandTask(req:any , res:any){
             model : 'gemini-2.5-flash',
             contents: `Break down this feature into 3-5 small developer subtasks. Return only a JSON array of strings, no explanation: "${description}"`
         })
+        const raw = response.text ?? ''
+        const cleaned = raw.replace(/```json|```/g , '').trim()
+        const subtasks = JSON.parse(cleaned)
+
         return res.status(200).json({
-            subtasks : response.text
+            subtasks 
         })
     }catch(err){
         res.status(500).json({ message: "Failed to expand task", error: err })

@@ -7,7 +7,7 @@ const [isBreak, setIsBreak] = useState(false)
 const navigate = useNavigate()
 
 useEffect(()=>{
-    if(isRunning) return 
+    if(!isRunning) return 
 
     const interval = setInterval(()=>{
         setTimeLeft(prev =>{
@@ -30,3 +30,4 @@ function formatTime(seconds:number){
     const s = (seconds%60).toString().padStart(2,'0')
     return `${m}:${s}`
 }
+

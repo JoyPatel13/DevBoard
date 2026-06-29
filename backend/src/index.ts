@@ -5,7 +5,6 @@ import { router } from './routes/auth.routes'
 import cookieParser from 'cookie-parser'
 import { TaskRouter } from './routes/task.routes'
 import { aiRouter } from './routes/ai.routes'
-import { expandTask } from './controllers/ai.controller'
 
 dotenv.config()
 

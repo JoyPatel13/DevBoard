@@ -7,28 +7,27 @@ type Task = {
     title: string
     status: string
     priority: string
-    createdAt:string
+    createdAt: string
 }
 export default function Dashboard() {
     const navigate = useNavigate()
-
     const [tasks, setTasks] = useState<Task[]>([])
     const token = localStorage.getItem('accessToken')
 
-    useEffect(()=>{
-        async function fetchTasks(){
-            try{
-                const response = await axios.get('http://localhost:5000/api/tasks/' , {
-                    headers : {Authorization : `Bearer ${token}`}
+    useEffect(() => {
+        async function fetchTasks() {
+            try {
+                const response = await axios.get('http://localhost:5000/api/tasks/', {
+                    headers: { Authorization: `Bearer ${token}` }
                 })
                 setTasks(response.data.tasks)
             }
-            catch(err){
+            catch (err) {
                 console.log(err)
             }
         }
         fetchTasks()
-    } , [])
+    }, [])
 
 
     function handleLogout() {
@@ -47,16 +46,18 @@ export default function Dashboard() {
                 </div>
 
                 {[
-                    { label: "Dashboard", icon: "⊞"  , path: '/dashboard'},
-                    { label: "Tasks", icon: "✓" , path:'/tasks'},
-                    { label: "Pomodoro", icon: "◷" , path: '/pomodoro'},
-                    { label: "AI Tools", icon: "✦" , path:'/ai' },
+                    { label: "Dashboard", icon: "⊞", path: '/dashboard' },
+                    { label: "Tasks", icon: "✓", path: '/tasks' },
+                    { label: "Pomodoro", icon: "◷", path: '/pomodoro' },
+                    { label: "AI Tools", icon: "✦", path: '/ai' },
                 ].map((item) => (
                     <button
                         key={item.label}
-                        onClick={()=>navigate(item.path)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors text-left"
-                    >
+                        onClick={() => navigate(item.path)}
+                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-left ${item.label === "Dashboard"
+                                ? "text-white bg-white/8"
+                                : "text-gray-400 hover:text-white hover:bg-white/5"
+                            }`}                    >
                         <span className="text-base">{item.icon}</span>
                         {item.label}
                     </button>
@@ -83,9 +84,9 @@ export default function Dashboard() {
                 {/* Stats Row */}
                 <div className="grid grid-cols-3 gap-4 mb-8">
                     {[
-                        { label: "Tasks Today", value: `${tasks.filter(t => new Date(t.createdAt ).toDateString() === new Date().toDateString()).length}`, color: "text-purple-400" },
+                        { label: "Tasks Today", value: `${tasks.filter(t => new Date(t.createdAt).toDateString() === new Date().toDateString()).length}`, color: "text-purple-400" },
                         { label: "Focus Sessions", value: "0", color: "text-blue-400" },
-                        { label: "Completed", value: `${ tasks.filter(t => t.status === 'DONE').length}`, color: "text-green-400" },
+                        { label: "Completed", value: `${tasks.filter(t => t.status === 'DONE').length}`, color: "text-green-400" },
                     ].map((stat) => (
                         <div key={stat.label} className="bg-[#161b27] border border-white/5 rounded-xl p-5">
                             <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">{stat.label}</p>

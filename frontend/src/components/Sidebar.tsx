@@ -18,6 +18,7 @@ export default function Sidebar({ activePage }: SidebarProps) {
                 { label: "Tasks", path: "/tasks", icon: "✓" },
                 { label: "Pomodoro", path: "/pomodoro", icon: "◷" },
                 { label: "AI Tools", path: "/ai", icon: "✦" },
+                { label: "Code Review", path: "/code-review", icon: "⌥" }
             ].map((item) => (
                 <button
                     key={item.label}

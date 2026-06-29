@@ -7,9 +7,10 @@ export default function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-
+    const [loading, setLoading] = useState(false)
     async function handleSubmit() {
         try {
+            setLoading(true)
             await axios.post('http://localhost:5000/api/auth/register', { name, email, password })
             const response = await axios.post('http://localhost:5000/api/auth/login', { email, password })
             localStorage.setItem('accessToken', response.data.accessToken)
@@ -17,6 +18,10 @@ export default function Register() {
         } catch (err) {
             console.log(err)
         }
+        finally{
+            setLoading(false)
+        }
+
     }
 
     return (
@@ -76,7 +81,7 @@ export default function Register() {
                             onClick={handleSubmit}
                             className="w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-sm font-medium py-2.5 rounded-lg transition-all mt-1 shadow-lg shadow-purple-900/30"
                         >
-                            Create Account
+                           {loading ? 'Registering user' : 'Register'}
                         </button>
                     </div>
 

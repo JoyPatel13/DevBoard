@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Tasks from './pages/Tasks'
 import ProtectedRoute from './components/ProtectedRoute'
 import Pomodoro from './pages/Pomodoro'
+import AITools from './pages/AITools'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/dashboard" element={<ProtectedRoute>  <Dashboard/> </ProtectedRoute>} />
         <Route path='/tasks' element ={<ProtectedRoute><Tasks/></ProtectedRoute> } />
+        <Route path='/ai' element ={<ProtectedRoute><AITools/></ProtectedRoute> } />
         <Route path='/pomodoro' element = {<ProtectedRoute><Pomodoro></Pomodoro></ProtectedRoute>} />
       </Routes> 
     </BrowserRouter>

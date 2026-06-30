@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import axios from "axios";
+
 
 export default function Pomodoro() {
 
     const [timeLeft, setTimeLeft] = useState(25 * 60)
     const [isRunning, setIsRunning] = useState(false)
     const [isBreak, setIsBreak] = useState(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (!isRunning) return
@@ -17,6 +17,14 @@ export default function Pomodoro() {
                 if (prev <= 1) {
                     clearInterval(interval)
                     setIsRunning(false)
+                    if(!isBreak){
+                        const token = localStorage.getItem('accessToken')
+                        axios.post('http://localhost:5000/api/pomodoro/create',{
+                            duration : 25*60
+                        } , {
+                            headers:{Authorization:`Bearer ${token}`}
+                        })
+                    }
                     setIsBreak(b => !b)
                     return isBreak ? 25 * 60 : 5 * 60
                 }

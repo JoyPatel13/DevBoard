@@ -10,10 +10,20 @@ type Task = {
     priority: string
     createdAt: string
 }
+
+type Session ={
+    id:string ,
+    title : string,
+    duration : unknown,
+        createdAt: string
+
+
+}
 export default function Dashboard() {
     const navigate = useNavigate()
     const [tasks, setTasks] = useState<Task[]>([])
     const token = localStorage.getItem('accessToken')
+    const [session, setSession] = useState<Session[]>([])
 
     useEffect(() => {
         async function fetchTasks() {
@@ -27,7 +37,18 @@ export default function Dashboard() {
                 console.log(err)
             }
         }
+        async function getSession() {
+            try{
+                const response = await axios.get('http://localhost:5000/api/pomodoro/',{
+                    headers:{Authorization:`Bearer ${token}`}
+                })
+                setSession(response.data.session)
+            }catch(err){
+                console.log(err)
+            }
+        }
         fetchTasks()
+        getSession()
     }, [])
 
 
@@ -40,7 +61,7 @@ export default function Dashboard() {
         <div className="flex min-h-screen bg-[#0f1117] text-white">
 
             {/* Sidebar */}
-            <Sidebar activePage="DashBoard"/>
+            <Sidebar activePage="Dashboard"/>
             {/* Main Content */}
             <main className="flex-1 p-8">
                 <div className="mb-8">
@@ -52,7 +73,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-3 gap-4 mb-8">
                     {[
                         { label: "Tasks Today", value: `${tasks.filter(t => new Date(t.createdAt).toDateString() === new Date().toDateString()).length}`, color: "text-purple-400" },
-                        { label: "Focus Sessions", value: "0", color: "text-blue-400" },
+                        { label: "Focus Sessions", value: `${session.filter(s => new Date(s.createdAt).toDateString() === new Date().toDateString()).length}`, color: "text-blue-400"  },
                         { label: "Completed", value: `${tasks.filter(t => t.status === 'DONE').length}`, color: "text-green-400" },
                     ].map((stat) => (
                         <div key={stat.label} className="bg-[#161b27] border border-white/5 rounded-xl p-5">

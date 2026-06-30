@@ -5,6 +5,7 @@ import { router } from './routes/auth.routes'
 import cookieParser from 'cookie-parser'
 import { TaskRouter } from './routes/task.routes'
 import { aiRouter } from './routes/ai.routes'
+import { pomodoroRouter } from './routes/pomodoro.routes'
 
 dotenv.config()
 
@@ -24,6 +25,8 @@ app.use('/api/auth' , router)
 app.use('/api/tasks' , TaskRouter)
 
 app.use('/api/ai' , aiRouter)
+
+app.use('/api/pomodoro' , pomodoroRouter)
 
 app.get('/health' ,(req,res)=>{
     res.json({

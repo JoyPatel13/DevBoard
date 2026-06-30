@@ -26,4 +26,25 @@ async function createSession(req:any ,res:any){
     }
 }
 
-export {createSession}
+async function getSession(req:any , res:any) {
+    try{
+        const userId = req.userId 
+        const session =await  prisma.pomodoroSession.findMany({
+            where:{
+                userId
+            }
+        })
+        res.status(201).json({
+            message: "Session fetched successfully",
+            session
+        })
+    }catch(err){
+        res.status(500).json({
+            message : "Unable to fetch session",
+            error : err
+        })
+    }
+}
+
+
+export {createSession , getSession}

@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import prisma from "../utils/prisma";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string })
 
@@ -54,5 +55,30 @@ async function reviewCode(req: any, res: any) {
     }
 }
 
+async function generateStandup(req:any , res:any) {
+    try{
 
-export { expandTask , reviewCode}
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+        
+        const sessions= await prisma.pomodoroSession.findMany({
+            where:{
+                userId : req.userId,
+                createdAt:{gte:today}
+            }
+        })
+        const response = await ai.models.generateContent({
+            model:'gemini-2.5-flash',
+            contents: `I completed ${sessions.length} Pomodoro sessions today working on: ${sessions.map(s=>s.taskTitle).filter(Boolean)}. Draft a short developer standup in 2-3 sentences.`
+        })
+        
+        res.status(200).json({
+            standup : response.text
+        })
+    }catch(err){
+        res.status(500).json({ message: "Failed to generate standup", error: err })
+    }
+
+}
+
+export { expandTask , reviewCode , generateStandup}

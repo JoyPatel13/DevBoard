@@ -10,6 +10,25 @@ export default function Pomodoro() {
     const [taskTitle, setTaskTitle] = useState('')
     const [standup, setStandup] = useState('')
     const [loadingStandup, setLoadingStandup] = useState(false)
+    const [allSessions, setAllSessions] = useState<any[]>([])
+
+    
+    useEffect(()=>{
+        async function fetchSessions(){
+            try{
+                const token = localStorage.getItem('accessToken')
+                const response = await axios.get('http://localhost:5000/api/pomodoro/' , {
+                    headers:{Authorization : `Bearer ${token}`}
+                })
+                setAllSessions(response.data.session)
+            }
+            catch(err){
+                console.log(err)
+            }
+            
+        }
+        fetchSessions()
+    } , [])
 
     useEffect(() => {
         if (!isRunning) return

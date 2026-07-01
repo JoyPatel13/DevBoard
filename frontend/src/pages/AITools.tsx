@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
+import toast from "react-hot-toast"
 
 export default function AITools() {
 
@@ -9,7 +10,6 @@ export default function AITools() {
     const [subtasks, setSubtasks] = useState([])
     const [loading, setLoading] = useState(false)
     const [addedTasks, setAddedTasks] = useState<number[]>([])
-    const navigate = useNavigate()
 
     async function handleExpand() {
         if (!description.trim()) return
@@ -21,9 +21,12 @@ export default function AITools() {
                     Authorization: `Bearer ${token}`
                 }
             })
+            toast.success("Subtasks generated")
+
             setSubtasks(response.data.subtasks)
         } catch (err) {
             console.log(err)
+            toast.error('Something went wrong')
         }
         finally {
             setLoading(false)
@@ -36,9 +39,11 @@ export default function AITools() {
             await axios.post('http://localhost:5000/api/tasks/create', { title, priority: 'MEDIUM' }, {
                 headers: { Authorization: `Bearer ${token}` }
             })
+            toast.success("Task Added")
             setAddedTasks(prev => [...prev, index])
         } catch (err) {
             console.log(err)
+            toast.error('Something went wrong')
         }
     }
 
@@ -88,8 +93,8 @@ export default function AITools() {
                                         onClick={() => addToTasks(task, i)}
                                         disabled={addedTasks.includes(i)}
                                         className={`text-xs border px-3 py-1 rounded-lg transition-all ml-4 shrink-0 ${addedTasks.includes(i)
-                                                ? 'text-green-400 border-green-500/30 cursor-not-allowed'
-                                                : 'text-purple-400 hover:text-purple-300 border-purple-500/30 hover:border-purple-400/50'
+                                            ? 'text-green-400 border-green-500/30 cursor-not-allowed'
+                                            : 'text-purple-400 hover:text-purple-300 border-purple-500/30 hover:border-purple-400/50'
                                             }`}
                                     >
                                         {addedTasks.includes(i) ? '✓ Added' : '+ Add to Tasks'}

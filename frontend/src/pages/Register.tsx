@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 export default function Register() {
     const [name, setName] = useState('')
@@ -15,8 +16,10 @@ export default function Register() {
             const response = await axios.post('http://localhost:5000/api/auth/login', { email, password })
             localStorage.setItem('accessToken', response.data.accessToken)
             window.location.href = '/dashboard'
+            toast.success("User registered successfully!")
         } catch (err) {
             console.log(err)
+            toast.error("Invalid email or password")
         }
         finally{
             setLoading(false)

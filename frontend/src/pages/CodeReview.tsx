@@ -1,14 +1,12 @@
 import { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
+import toast from "react-hot-toast"
 
 export default function CodeReview(){
     const [code, setCode] = useState('')
     const [loading, setLoading] = useState(false)
     const [aiReview, setAiReview] = useState<any>(null)
-
-    const navigate = useNavigate()
 
     async function handleReview(){
         if(!code) return
@@ -20,11 +18,14 @@ export default function CodeReview(){
                     Authorization :`Bearer ${token}`
                 }
             })
-            setAiReview(response.data.review)
             
+            setAiReview(response.data.review)
+            toast.success('Code reviewed!')
 
         }catch(err){
             console.log(err)
+            toast.error('Failed to review code')
+
         }finally{
             setLoading(false)
         }

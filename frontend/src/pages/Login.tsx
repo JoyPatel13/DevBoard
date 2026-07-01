@@ -1,6 +1,7 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -10,11 +11,14 @@ export default function Login() {
 
     async function handleSubmit() {
         try {
+            
             setLoading(true)
             const response = await axios.post('http://localhost:5000/api/auth/login', { email, password })
             localStorage.setItem('accessToken', response.data.accessToken)
             window.location.href = '/dashboard'
+            toast.success("User logged in successfully")
         } catch (err) {
+            toast.error("Invalid email or password!")
             console.log(err)
         }
         finally{

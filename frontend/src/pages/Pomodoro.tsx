@@ -8,6 +8,7 @@ export default function Pomodoro() {
     const [isRunning, setIsRunning] = useState(false)
     const [isBreak, setIsBreak] = useState(false)
     const [taskTitle, setTaskTitle] = useState('')
+    const [standup, setstandup] = useState('')
 
     useEffect(() => {
         if (!isRunning) return
@@ -17,13 +18,13 @@ export default function Pomodoro() {
                 if (prev <= 1) {
                     clearInterval(interval)
                     setIsRunning(false)
-                    if(!isBreak){
+                    if (!isBreak) {
                         const token = localStorage.getItem('accessToken')
-                        axios.post('http://localhost:5000/api/pomodoro/create',{
-                            duration : 25*60,
+                        axios.post('http://localhost:5000/api/pomodoro/create', {
+                            duration: 25 * 60,
                             taskTitle
-                        } , {
-                            headers:{Authorization:`Bearer ${token}`}
+                        }, {
+                            headers: { Authorization: `Bearer ${token}` }
                         })
                     }
                     setIsBreak(b => !b)
@@ -43,13 +44,14 @@ export default function Pomodoro() {
         return `${m}:${s}`
     }
 
+    
     const accent = isBreak ? '#22c55e' : '#7c3aed'
 
     return (
         <div className="flex min-h-screen bg-[#0f1117] text-white">
 
             {/* Sidebar */}
-           <Sidebar activePage="Pomodoro"/>
+            <Sidebar activePage="Pomodoro" />
             {/* Main */}
             <main className="flex-1 flex flex-col items-center justify-center p-8">
 
@@ -63,13 +65,13 @@ export default function Pomodoro() {
                     </span>
                 </div>
                 <input
-    type="text"
-    value={taskTitle}
-    onChange={(e) => setTaskTitle(e.target.value)}
-    disabled={isRunning}
-    placeholder="What are you working on?"
-    className="w-72 bg-[#161b27] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/60 transition-all mb-6 text-center"
-/>
+                    type="text"
+                    value={taskTitle}
+                    onChange={(e) => setTaskTitle(e.target.value)}
+                    disabled={isRunning}
+                    placeholder="What are you working on?"
+                    className="w-72 bg-[#161b27] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/60 transition-all mb-6 text-center"
+                />
 
                 {/* Timer circle */}
                 <div

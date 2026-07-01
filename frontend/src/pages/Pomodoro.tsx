@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 
-
 export default function Pomodoro() {
 
     const [timeLeft, setTimeLeft] = useState(25 * 60)
     const [isRunning, setIsRunning] = useState(false)
     const [isBreak, setIsBreak] = useState(false)
+    const [taskTitle, setTaskTitle] = useState('')
 
     useEffect(() => {
         if (!isRunning) return
@@ -20,7 +20,8 @@ export default function Pomodoro() {
                     if(!isBreak){
                         const token = localStorage.getItem('accessToken')
                         axios.post('http://localhost:5000/api/pomodoro/create',{
-                            duration : 25*60
+                            duration : 25*60,
+                            taskTitle
                         } , {
                             headers:{Authorization:`Bearer ${token}`}
                         })
@@ -61,6 +62,14 @@ export default function Pomodoro() {
                         {isBreak ? '☕ Break Time' : '🎯 Focus Session'}
                     </span>
                 </div>
+                <input
+    type="text"
+    value={taskTitle}
+    onChange={(e) => setTaskTitle(e.target.value)}
+    disabled={isRunning}
+    placeholder="What are you working on?"
+    className="w-72 bg-[#161b27] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/60 transition-all mb-6 text-center"
+/>
 
                 {/* Timer circle */}
                 <div

@@ -8,7 +8,8 @@ export default function Pomodoro() {
     const [isRunning, setIsRunning] = useState(false)
     const [isBreak, setIsBreak] = useState(false)
     const [taskTitle, setTaskTitle] = useState('')
-    const [standup, setstandup] = useState('')
+    const [standup, setStandup] = useState('')
+    const [loadingStandup, setLoadingStandup] = useState(false)
 
     useEffect(() => {
         if (!isRunning) return
@@ -44,7 +45,25 @@ export default function Pomodoro() {
         return `${m}:${s}`
     }
 
-    
+    async function handleGenerateStandup() {
+
+        try {
+            setLoadingStandup(true)
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.post('http://localhost:5000/api/ai/standup', {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            setStandup(response.data.standup)
+
+        } catch (err) {
+            console.log(err)
+
+        }
+        finally {
+            setLoadingStandup(false)
+        }
+    }
     const accent = isBreak ? '#22c55e' : '#7c3aed'
 
     return (
@@ -98,12 +117,29 @@ export default function Pomodoro() {
                     >
                         Reset
                     </button>
+                    <button disabled={loadingStandup}
+                        className="px-8 py-3 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 transition-all"
+                        onClick={handleGenerateStandup}>{loadingStandup ? "Generating Standup" : 'Generate Standup'}</button>
                 </div>
 
                 {/* Session info */}
                 <p className="text-gray-600 text-xs mt-8">
                     {isBreak ? '5 minute break' : '25 minute focus session'}
                 </p>
+                {standup && (
+                    <div className="mt-8 w-full max-w-md bg-[#161b27] border border-white/5 rounded-xl p-6">
+                        <div className="flex items-center justify-between mb-3">
+                            <h2 className="text-xs text-gray-400 uppercase tracking-widest">Standup Update</h2>
+                            <button
+                                onClick={() => navigator.clipboard.writeText(standup)}
+                                className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                            >
+                                Copy
+                            </button>
+                        </div>
+                        <p className="text-sm text-gray-300 leading-relaxed">{standup}</p>
+                    </div>
+                )}
             </main>
         </div>
     )

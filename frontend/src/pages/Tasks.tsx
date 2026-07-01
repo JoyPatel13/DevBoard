@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
+import toast from "react-hot-toast"
 
 type Task = {
     id: string
@@ -40,6 +41,7 @@ export default function Tasks() {
                 { title: newTitle, priority: newPriority },
                 { headers: { Authorization: `Bearer ${token}` } }
             )
+            toast.success('Task created!')
             setNewTitle('')
             fetchTasks()
         } catch (err) {
@@ -54,8 +56,10 @@ export default function Tasks() {
                 { headers: { Authorization: `Bearer ${token}` } }
             )
             fetchTasks()
+            toast.success('Task Updated!')
         } catch (err) {
             console.log(err)
+            toast.error("Something went wrong!")
         }
     }
 
@@ -64,9 +68,11 @@ export default function Tasks() {
             await axios.delete(`http://localhost:5000/api/tasks/delete/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             )
+            toast.success('Task Deleted!')
             fetchTasks()
         } catch (err) {
             console.log(err)
+            toast.error("Something went wrong!")
         }
     }
 
